@@ -1,4 +1,4 @@
-# 대학생 학업 중단 / 졸업 예측
+![image](https://github.com/Jinwonie/dropout_prediction_model/assets/155731578/d2cca084-259c-4fa2-9dc3-172784e477fd)![image](https://github.com/Jinwonie/dropout_prediction_model/assets/155731578/1574685d-112d-4dce-9908-68455b0a2074)# 학업 중단 / 졸업 예측
 
 ## :alarm_clock: 개발 기간: 2024년 2월 1일(목) ~ 2024년 3월 6일(수)
 ## 개발환경:
@@ -24,59 +24,111 @@
 
 ## :robot: 모델 개발
 > ### EDA
-1. Json 파일을 DataFrame으로 변환 후 각종 정보를 확인했습니다.
+1. 컬럼 정보 확인
 
-각 이미지 데이터의 라벨링, 나이, 성별, 배경정보, Bounding Box 정보 등 각종 정보가 처리되어 있습니다.
-![image](https://github.com/DPTure/Team5/assets/155731578/3a5cbfc6-8756-4f12-a58d-1ef9186dd7bf)
+|컬럼명|설명|
+|------|----|
+|marital|결혼여부|
+|application mode|지원방법|
+|application order|지망순|
+|course|전공|
+|attendence|낮 or 저녁 수업 참석 여부|
+|previous qualification|고등교육전에 학생이 취득한 자격|
+|nationality|학생 국적|
+|mother qualification|학생 엄마의 학력|
+|father qualification|학생 아빠의 학력|
+|mother occupation|엄마 직업|
+|father occupation|아빠 직업|
+|displaces|난민 여부|
+|special|특별 교육이 필요 여부|
+|debtor|채무자 여부|
+|fees up to date|최근 수업료 수납 여부|
+|gender|성별|
+|scholarship|장학생 여부|
+|enrollment age|입학 나이|
+|international|유학생 여부|
+|1st credited|첫 학기에 이수한 교과목 단위|
+|1st enrolled|첫 학기에 등록한 교과목 단위|
+|1st evaluations|첫 학기에 평가가 있는 교과목 단위|
+|1st approved|첫 학기에 승인한 교과목 단위|
+|1st grade|첫 학기 등급|
+|1st without evaluations|첫 학기 평가가 없는 교과목 단위|
+|unemploymen|실업률|
+|inflation rate|인플레이션율|
+|gdp|gdp|
+* 2학기 credited, enrolled, evaluations, approved, grade, without evaluations도 존재함.
 
-2. 기초 통계 정보를 확인했습니다.
+2. 타겟 불균형 확인(6:4 정도로 불균형 존재)
+![image](https://github.com/Jinwonie/dropout_prediction_model/assets/155731578/c9139a3c-b7fb-497f-8544-e77a604c7f40)
 
-3. 간단한 시각화를 통해 데이터의 분포를 확인했습니다. 감정에 대한 데이터 불균형은 존재하지 않습니다.
-![image](https://github.com/DPTure/Team5/assets/155731578/695528c1-6612-4e9c-83d9-92f7e9ab0669)
-![image](https://github.com/DPTure/Team5/assets/155731578/80930595-dadf-401e-a41a-486d11f59671)
-![image](https://github.com/DPTure/Team5/assets/155731578/463d0ce4-4755-4953-adb3-fe37ae62503b)
-![image](https://github.com/DPTure/Team5/assets/155731578/a30529cf-c8e3-406f-8069-e866085fec4a)
-![image](https://github.com/DPTure/Team5/assets/155731578/984407c3-a7ea-4f16-bb7c-d51094314ade)
+3. 피쳐 간 상관관계 분석((abs)0.65보다 높은 상관관계
+![image](https://github.com/Jinwonie/dropout_prediction_model/assets/155731578/ead96e81-66a7-46a0-b304-3c15a1ee4e61)
 
+4. 각 feature에 따른 target 비율 측정
+- 유학생 신분에 대한 학업 포기 비율
+![image](https://github.com/Jinwonie/dropout_prediction_model/assets/155731578/d181450f-aa88-479f-8606-e122bcdef277)
+
+- 장학금 여부에 대한 학업 포기 비율
+![image](https://github.com/Jinwonie/dropout_prediction_model/assets/155731578/fbd01432-260a-4c2f-b4da-fb4f022300a5)
+
+- 성별별 학업 포기 비율</br>
+![image](https://github.com/Jinwonie/dropout_prediction_model/assets/155731578/162326d7-f2f5-4208-a752-b2c1b47d1413)
+
+- 전공과정별 학업 포기 비율
+![image](https://github.com/Jinwonie/dropout_prediction_model/assets/155731578/acddfb11-a902-4c16-b9a8-d6fcb1c1172c)
+
+3. 이상치 탐지에서의 성능 비교 및 전처리 이후 모델의 정확도 측정을 위한 데이터 증강 작업 및 정확도 측정 함수 생성<br/>
+![image](https://github.com/Jinwonie/dropout_prediction_model/assets/155731578/20644785-ab9f-473e-a7c0-d027023df933)
+
+
+4. 이상치 탐지
+- 여러 이상치 탐지 기법을 통해 이상치를 탐지하고 Base Model을 통해 성능 비교<br/>(Base Model = LogisticRegression(solver='liblinear'))
+
+|탐지기법|성능(val_acc)|
+|--------|-----|
+|Z-score|90.50%|
+|IsolationForest|91.20%|
+|LOF|91.80%|
+|DBSCAN|88.40%|
+|IQR|86.20%|
 
 > ### Preprocessing
-1. 사진 데이터 crop & crop+seg 작업을 진행했습니다.
+1. raw_data 기준으로 Model을 돌리고 가장 성능이 좋은 모델을 Bese Model로 선정, 전처리 전후 성능을 비교
 
-crop
+Best Model: LogisticRegression(acc: 90.60%, f1: 87.35%), raw_data는 불균형이 있는 데이터로, f1 score가 더욱 정확한 수치라고 판단함
 
+2. 도메인 지식, EDA, Featrue Importance를 활용하여 버전 별로 데이터를 관리하며 전처리를 실시하여 모델 성능 향상을 측정함.
 
-![image](https://github.com/DPTure/Team5/assets/155731578/3350fccc-2835-42a8-b102-d6a2d609bb3a)
+ver 1. 성적 파생변수 추가 + credited 컬럼 제거
 
+- 성적과 관련된 파생변수끼리 상관관계가 있고, Target과도 높은 상관관계가 있으므로 파생변수를 생성함.
+   
+   - 2nd grade - 1st grade: 성적 등락(grade increse)
+   
+   - 1st grade * 1st approved: 총 학점 획득량(1st / 2nd weighted grade)
+  
+   - 2st grade * 2st approved
 
-crop & seg
+ver 2.
 
+- weigthed grade를 반대로 나누어서 비슷한 효과지만 격차를 줄여보면 어떨지 실험(이유: 대부분 카테고리컬 데이터로 이루어져 있어 곱셈의 경우 데이터 간 큰 수치 차이로 인해 성능이 떨어질 것을 우려)
 
-![image](https://github.com/DPTure/Team5/assets/155731578/7ec94f04-92f7-486a-89d3-4d68ca533953)
+- 실험 결과 ver 1의 성능이 더 좋았으므로 ver 1에 추가 전처리 진행
 
+ver 3.
+- EDA를 통해 각 변수들을 분석하면서 변수 제거
 
-2. array 변환, 차원 추가 및 resize 전처리 작업을 수행했습니다.
+  - Marital은 Dropout, Graduate의 비율이 동등했고 유의미한 데이터는 데이터 수 자체가 매우 적었으므로 모델 성능에 영향을 미치지 못할 것으로 예상, 제거 결정
+
+  - GDP, Inflation rate, Unemployment는 비슷한 feature로, 모델의 복잡도를 높여 예측 성능에 좋지 않은 영향을 줄 것으로 예상하여 feature importance가 가장 높은 Unemployment 제외 나머지 feature 제거(feature importance는 DT, RF, XGB, LGBM에서 확인)
+
+  - without evaluation은 평가가 없는 점수로, grade에도 직접적인 연관이 없고 feature importance에서도 큰 영향력이 없으므로 제거
+
+ver 4, 5에서는 feature importance를 보면서 제거 이후 성능이 이전에 비해 낮아질 때까지 진행함
+
+- ver 4: attendance 제거 ver 5: international 제거
+
+ver 6. 이상치 제거와 Standard Sclaer로 스케일링 진행
+
 
 > ### Modeling & Model ensemble
-
-ConvNeXt, ResNet v2, DenseNet, MobileNet v2/v3, Inception v3, BEIT, SWIN, YOLO v8 모델을 돌려보고 loss 및 acc를 측정하였고,
-모델 앙상블을 진행했습니다.
-
-모든 모델들의 loss와 acc를 측정한 결과, 단일 모델인 BEIT가 loss 0.5846, acc 87.33%로 가장 높은 성능을 보였습니다. 따라서 BEIT를 감정 분석 모델로 선정했습니다.
-> ### Prerequisites
-
-Before using the library or REST API, you must sign up on the suno.ai website and obtain your cookie as shown in this screenshot.
-You can find cookie from the Web Browser's Developer Tools -> Network Tab -> Filter: _clerk_js_version
-
-Music Face에서 사용되는 모델의 경우 용량이 큰 관계로 구글 드라이브 링크를 첨부해드립니다. Submission/Models 폴더 내에 있는 best_model.pt, swinv2_ages.pt, swinv2_gender.pt 파일을 다운받아 이용해주세요.
-
-[Google Drive](https://drive.google.com/drive/u/0/folders/1BNF7E2JYfD7p42UU6ymU-nXpWdB1cFyD)
-
-![prerequisites](https://github.com/Jinwonie/music_face/assets/155731578/20586ae8-c1d7-434e-be6e-6e5bf57b8b0f)
-
-> ### Input your cookie 
-```
-cookies='Your Cookie'
-```
-
-> ### 기타
-이 비공식 API는 Suno AI 서비스와 상호 작용하는 편리한 방법을 제공하지만 생성된 음악에 대한 소유권이나 권리를 주장하지 않습니다. 플랫폼을 사용할 때 Suno AI의 서비스 약관을 존중하십시오.
