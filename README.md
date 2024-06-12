@@ -1,4 +1,4 @@
-![image](https://github.com/Jinwonie/dropout_prediction_model/assets/155731578/d2cca084-259c-4fa2-9dc3-172784e477fd)![image](https://github.com/Jinwonie/dropout_prediction_model/assets/155731578/1574685d-112d-4dce-9908-68455b0a2074)# 학업 중단 / 졸업 예측
+# 학업 중단 / 졸업 예측
 
 ## :alarm_clock: 개발 기간: 2024년 2월 1일(목) ~ 2024년 3월 6일(수)
 ## 개발환경:
@@ -56,7 +56,7 @@
 |unemploymen|실업률|
 |inflation rate|인플레이션율|
 |gdp|gdp|
-* 2학기 credited, enrolled, evaluations, approved, grade, without evaluations도 존재함.
+* 2학기 credited, enrolled, evaluations, approved, grade, without evaluations도 존재함
 
 2. 타겟 불균형 확인(6:4 정도로 불균형 존재)
 ![image](https://github.com/Jinwonie/dropout_prediction_model/assets/155731578/c9139a3c-b7fb-497f-8544-e77a604c7f40)
@@ -77,7 +77,7 @@
 - 전공과정별 학업 포기 비율
 ![image](https://github.com/Jinwonie/dropout_prediction_model/assets/155731578/acddfb11-a902-4c16-b9a8-d6fcb1c1172c)
 
-3. 이상치 탐지에서의 성능 비교 및 전처리 이후 모델의 정확도 측정을 위한 데이터 증강 작업 및 정확도 측정 함수 생성<br/>
+3. 이상치 탐지에서의 성능 비교 및 전처리 이후 모델의 정확도 측정을 위한 데이터 증강 작업 및 acc, f1 score 측정 함수 생성<br/>
 ![image](https://github.com/Jinwonie/dropout_prediction_model/assets/155731578/20644785-ab9f-473e-a7c0-d027023df933)
 
 
@@ -95,7 +95,7 @@
 > ### Preprocessing
 1. raw_data 기준으로 Model을 돌리고 가장 성능이 좋은 모델을 Bese Model로 선정, 전처리 전후 성능을 비교
 
-Best Model: LogisticRegression(acc: 90.60%, f1: 87.35%), raw_data는 불균형이 있는 데이터로, f1 score가 더욱 정확한 수치라고 판단함
+Best Model: LogisticRegression(acc: 90.60%, f1: 87.35%)
 
 2. 도메인 지식, EDA, Featrue Importance를 활용하여 버전 별로 데이터를 관리하며 전처리를 실시하여 모델 성능 향상을 측정함.
 
@@ -130,5 +130,30 @@ ver 4, 5에서는 feature importance를 보면서 제거 이후 성능이 이전
 
 ver 6. 이상치 제거와 Standard Sclaer로 스케일링 진행
 
+- 이상치 제거 전후 비교
 
-> ### Modeling & Model ensemble
+![image](https://github.com/Jinwonie/dropout_prediction_model/assets/155731578/d2cca084-259c-4fa2-9dc3-172784e477fd)
+
+IsolationForest가 성능 향상에 유의미했음
+
+- 스케일링 전후 비교<br/>
+![image](https://github.com/Jinwonie/dropout_prediction_model/assets/155731578/40746469-7ac2-404b-a02a-e98b8433a3cd)
+
+![image](https://github.com/Jinwonie/dropout_prediction_model/assets/155731578/1c086c05-22cb-4068-8ac9-e30ef5f0d138)
+
+스케일링이 성능 향상에 유의미했음.
+
+> ### Modeling & Model ensemble(ver 6. 기준)
+1. 하이퍼파라미터 튜닝 전 모델 비교 및 모델 선정<br/>
+![image](https://github.com/Jinwonie/dropout_prediction_model/assets/155731578/35bcec37-4144-48b7-beea-496966a35c99)<br/>
+![image](https://github.com/Jinwonie/dropout_prediction_model/assets/155731578/61f609ee-1b16-46c1-8573-fef4ae3b37e6)<br/>
+- Voting = LGBM, GB, RF, ADAboost
+
+- 성능 측정 결과 RF, GB, LGBM, ADA, Voting이 성능이 좋았음
+
+2. 하이퍼파라미터 최적화 후 최종 성능 비교(Grid Search CV)<br/>
+![image](https://github.com/Jinwonie/dropout_prediction_model/assets/155731578/78b91b9c-8293-4653-bcf7-22fc790492c1)<br/>
+![image](https://github.com/Jinwonie/dropout_prediction_model/assets/155731578/54e16982-e4c2-45ff-ae2f-92107caa99bf)<br/>
+
+- 최종 성능 측정 결과 LGBM이 acc 90.97, f1 84.12로 가장 좋은 성능을 보였고, 최종 모델로 선정됨
+
