@@ -32,21 +32,21 @@
 |application mode|지원방법|
 |application order|지망순|
 |course|전공|
-|attendence|낮 or 저녁 수업 참석 여부|
+|attendence|주/야간 수업 참석 여부|
 |previous qualification|고등교육전에 학생이 취득한 자격|
 |nationality|학생 국적|
-|mother qualification|학생 엄마의 학력|
-|father qualification|학생 아빠의 학력|
-|mother occupation|엄마 직업|
-|father occupation|아빠 직업|
-|displaces|난민 여부|
+|mother qualification|학생 어머니 최종학력|
+|father qualification|학생 아버지 최종학력|
+|mother occupation|어머니 직업|
+|father occupation|아버지 직업|
+|displaces|실향민 여부|
 |special|특별 교육이 필요 여부|
 |debtor|채무자 여부|
 |fees up to date|최근 수업료 수납 여부|
 |gender|성별|
 |scholarship|장학생 여부|
 |enrollment age|입학 나이|
-|international|유학생 여부|
+|international|국제학생 여부|
 |1st credited|첫 학기에 이수한 교과목 단위|
 |1st enrolled|첫 학기에 등록한 교과목 단위|
 |1st evaluations|첫 학기에 평가가 있는 교과목 단위|
@@ -86,11 +86,11 @@
 
 |탐지기법|성능(val_acc)|
 |--------|-----|
-|Z-score|90.50%|
-|IsolationForest|91.20%|
-|LOF|91.80%|
-|DBSCAN|88.40%|
-|IQR|86.20%|
+|Z-score|92.30%|
+|IsolationForest|92.80%|
+|LOF|88.50%|
+|DBSCAN|90.20%|
+|IQR|83.20%|
 
 > ### Preprocessing
 1. raw_data 기준으로 Model을 돌리고 가장 성능이 좋은 모델을 Bese Model로 선정, 전처리 전후 성능을 비교
