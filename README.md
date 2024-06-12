@@ -61,7 +61,7 @@
 2. 타겟 불균형 확인(6:4 정도로 불균형 존재)
 ![image](https://github.com/Jinwonie/dropout_prediction_model/assets/155731578/c9139a3c-b7fb-497f-8544-e77a604c7f40)
 
-3. 피쳐 간 상관관계 분석((abs)0.65보다 높은 상관관계
+3. 피쳐 간 상관관계 분석((abs)0.65보다 높은 상관관계)<br/>
 ![image](https://github.com/Jinwonie/dropout_prediction_model/assets/155731578/ead96e81-66a7-46a0-b304-3c15a1ee4e61)
 
 4. 각 feature에 따른 target 비율 측정
