@@ -27,7 +27,7 @@
 그러므로 저희는 학업 중단의 원인을 다각도로 분석하고, 예측 모델을 설계해 학생들의 학업 중단을 최소화하고, 국가 발전을 위한 고급 인력을 유지할 수 있는 방안을 모색하기 위해 해당 주제를 선정했습니다.
 
 ## :bar_chart: 사용한 데이터
-Kaggle Predict students' dropout and academic success
+[Kaggle] Predict students' dropout and academic success
 
 ## :robot: 모델 개발
 > ### EDA
