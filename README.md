@@ -7,7 +7,11 @@
 |![Coalb](https://img.shields.io/badge/Colab-F9AB00?style=for-the-badge&logo=googlecolab&color=525252)|![PYTHON](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)|
 
 ## :people_holding_hands: 멤버구성 및 역할
-천진원(조장)
+[조장]
+
+천진원
+
+[조원]
 
 김민근, 주현수, 허영민
 
